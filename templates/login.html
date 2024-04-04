@@ -9,10 +9,15 @@
     <div class="container1">
         <h1 class="UC-Merced">UC Merced</h1>
         <h2 class="singleLog">Single Login</h2>
-        <input type="text" placeholder="Username">
-        <input id="inputPass" type="password" placeholder="Password">
+        <form action="{{ url_for("login") }}" method="post">
+            <input type="text" name="username" placeholder="Username">
+            <input id="inputPass" name="password" type="password" placeholder="Password">
+            <button type="submit">Login</button>
+        </form>
         <input type="checkbox" id="showPass"> Show Password
-        <button>Login</button>
+        {% if message != None %}
+        <div style="color: {{ messageColor }}"> {{ message }}</div>
+        {% endif %}
     </div>
 </div>
 </body>

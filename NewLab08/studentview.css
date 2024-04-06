@@ -97,6 +97,7 @@ button.active {
     display: flex;
     margin-top: 20px;
     width: 100%;
+    padding-left: 15px;
 }
 
 .add-course input[type="text"] {
@@ -104,7 +105,7 @@ button.active {
     margin-bottom: 10px;
     border: 1px solid #cccccc;
     border-radius: 4px;
-    width: 100%;
+    width: 20%;
 }
 
 .add-course button {

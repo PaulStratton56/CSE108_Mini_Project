@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from models import *
 from helperFunctions import *
+import json
 
 CONFIRM_COLOR = "green"
 ERROR_COLOR = "red"
@@ -34,7 +35,7 @@ def teacherStudents(teacher_id, class_id):
     teacher = getTeacher(int(teacher_id))
     currentClass = getClass(int(class_id))
     students = getClassStudents(currentClass)
-    return render_template("teacherStudents.html", students = students, currentClass = currentClass, teacher = teacher, getStudentGrade = getStudentGrade)
+    return render_template("teacherStudents.html", students = students, currentClass = currentClass, teacher = teacher, getStudentGrade = getStudentGrade, setGrade = setGrade)
 
 #Login page routing - routes to Alex's login page.
 @app.route("/login", methods=["GET", "POST"])
@@ -69,6 +70,15 @@ def login():
             message="ERROR: No user found by the name of " + username + ". Please try again."
             messageColor = ERROR_COLOR
         return render_template("login.html", message = message, messageColor = messageColor)
+
+@app.route("/setGrade/<student_id>/<class_id>", methods=["POST"])
+def setGrade(student_id, class_id):
+    enrollment = db.session.query(student_class_table).filter_by(student_id=student_id, class_id=class_id).first()
+    newGrade = int(json.loads(request.data)["grade"])
+    if enrollment:
+        currentGrade = enrollment.grade
+        print("Student is enrolled! Changing grade from " + str(currentGrade) + " to " + str(newGrade))
+    return "Success"
 
 @app.route("/debug", methods=["GET"])
 def debug():

@@ -16,12 +16,13 @@
                 {% for student in students: %}
                     <tr>
                         <td> {{ student.name }} </td>
-                        <td> <input type="number", value="{{ getStudentGrade(student, currentClass) }}"/></td>
+                        <td> <input type="number" onchange="setGrade(Number('{{student.id}}'), Number('{{currentClass.id}}'), this)" value="{{ getStudentGrade(student, currentClass) }}"/></td>
                     </tr>
                 {% endfor %}
             </table>
         </div>
     </div>
     <div><a href="/login">Sign Out</a></div>
+    <script src="{{ url_for("static", filename="teacherStudents.js") }}"></script>
 </body>
 </html>

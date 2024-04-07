@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taught Classes</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='teacherMyClasses.css') }}">
+</head>
+<body>
+    <div id="debugBar">
+        <a href="/student/myClasses">studentMyClasses</a>
+        <a href="/student/allClasses">studentAllClasses</a>
+        <a href="/teacher/myClasses">teacherMyClasses</a>
+        <a href="/teacher/class/students">teacherStudents</a>
+        <a href="/login">login</a>
+    </div>
+    <div class="boldFont largeFont">University</div>
+    <div class="boldFont">Welcome, teacher!</div>
+    <div>
+        <div>Your Courses</div>
+        <div id="classContainer">
+            <table class="bordered">
+                <tr>
+                    <td>Taught Class 1</td>
+                </tr>
+                <tr>
+                    <td>Taught Class 2</td>    
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div><a href="/login">Sign Out</a></div>
+</body>
+</html>

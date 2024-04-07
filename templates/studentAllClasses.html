@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Classes</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='studentAllClasses.css') }}">
+</head>
+<body>
+    <div id="debugBar">
+        <a href="/student/myClasses">studentMyClasses</a>
+        <a href="/student/allClasses">studentAllClasses</a>
+        <a href="/teacher/myClasses">teacherMyClasses</a>
+        <a href="/teacher/class/students">teacherStudents</a>
+        <a href="/login">login</a>
+    </div>
+    <div class="boldFont largeFont">University</div>
+    <div class="boldFont">Welcome, student!</div>
+    <div>
+        <div class="sideBySideContainer">
+            <div><a href="/student/myClasses">Your Courses</a></div>
+            <div><a href="/student/allClasses">Add Courses</a></div>
+        </div>
+        <div id="classContainer">
+            <table class="bordered">
+                <tr>
+                    <td>Available Class 1</td>
+                </tr>
+                <tr>
+                    <td>Available Class 2</td>    
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div><a href="/login">Sign Out</a></div>
+</body>
+</html>

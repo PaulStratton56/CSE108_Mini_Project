@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from models import *
+from helperFunctions import *
 
 CONFIRM_COLOR = "green"
 ERROR_COLOR = "red"
@@ -7,24 +8,33 @@ NONE_COLOR = "black"
 
 #Home page routing - right now nothing, but we should consider moving the login page here (so it's the first thing they see).
 @app.route("/")
-def index():    
+def index():
     return redirect(url_for("login"))
 
-@app.route("/student/myClasses")
-def studentMyClasses():
-    return render_template("studentMyClasses.html")
+@app.route("/student/<student_id>/myClasses")
+def studentMyClasses(student_id):
+    student = getStudent(int(student_id))
+    classes = getStudentClasses(student)
+    return render_template("studentMyClasses.html", classes = classes, student = student, getTeacherName = getTeacherName, getNumberOfEnrolledStudents = getNumberOfEnrolledStudents)
 
-@app.route("/student/allClasses")
-def studentAllClasses():
-    return render_template("studentAllClasses.html")
+@app.route("/student/<student_id>/allClasses")
+def studentAllClasses(student_id):
+    student = getStudent(int(student_id))
+    classes = Class.query.all()
+    return render_template("studentAllClasses.html", classes = classes, student = student, getTeacherName = getTeacherName, getNumberOfEnrolledStudents = getNumberOfEnrolledStudents, enrolled = enrolled)
 
-@app.route("/teacher/myClasses")
-def teacherMyClasses():
-    return render_template("teacherMyClasses.html")
+@app.route("/teacher/<teacher_id>/myClasses")
+def teacherMyClasses(teacher_id):
+    teacher = getTeacher(int(teacher_id))
+    classes = getTeacherClasses(teacher)
+    return render_template("teacherMyClasses.html", classes = classes, teacher = teacher, getNumberOfEnrolledStudents = getNumberOfEnrolledStudents)
 
-@app.route("/teacher/class/students")
-def teacherStudents():
-    return render_template("teacherStudents.html")
+@app.route("/teacher/<teacher_id>/class/<class_id>/students")
+def teacherStudents(teacher_id, class_id):
+    teacher = getTeacher(int(teacher_id))
+    currentClass = getClass(int(class_id))
+    students = getClassStudents(currentClass)
+    return render_template("teacherStudents.html", students = students, currentClass = currentClass, teacher = teacher, getStudentGrade = getStudentGrade)
 
 #Login page routing - routes to Alex's login page.
 @app.route("/login", methods=["GET", "POST"])
@@ -42,6 +52,7 @@ def login():
             if student.password == password:
                 message="Welcome, student " + student.name + "!"
                 messageColor = CONFIRM_COLOR
+                return redirect(url_for("studentMyClasses", student_id = getStudent(username).id))
             else:
                 message="ERROR: Incorrect password. Please try again."
                 messageColor = ERROR_COLOR
@@ -50,6 +61,7 @@ def login():
             if teacher.password == password:
                 message="Welcome, teacher " + teacher.name + "!"
                 messageColor = CONFIRM_COLOR
+                return redirect(url_for("teacherMyClasses", teacher_id = getTeacher(username).id))
             else:
                 message="ERROR: Incorrect password. Please try again."
                 messageColor = ERROR_COLOR
@@ -58,11 +70,13 @@ def login():
             messageColor = ERROR_COLOR
         return render_template("login.html", message = message, messageColor = messageColor)
 
-def getStudent(username):
-    return Student.query.filter_by(name=username).first()
-
-def getTeacher(username):
-    return Teacher.query.filter_by(name=username).first()
+@app.route("/debug", methods=["GET"])
+def debug():
+    class3 = Class.query.filter_by(name = "BIO").first()
+    class3.max_students = 2
+    class3.teacher_id = getTeacher().id
+    db.session.commit()
+    return render_template("login.html", message = "Debug completed.", messageColor = 'green')
 
 #Initialize the database tables for the application's use.
 with app.app_context():

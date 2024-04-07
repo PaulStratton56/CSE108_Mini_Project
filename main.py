@@ -8,7 +8,23 @@ NONE_COLOR = "black"
 #Home page routing - right now nothing, but we should consider moving the login page here (so it's the first thing they see).
 @app.route("/")
 def index():    
-    return render_template("index.html")
+    return redirect(url_for("login"))
+
+@app.route("/student/myClasses")
+def studentMyClasses():
+    return render_template("studentMyClasses.html")
+
+@app.route("/student/allClasses")
+def studentAllClasses():
+    return render_template("studentAllClasses.html")
+
+@app.route("/teacher/myClasses")
+def teacherMyClasses():
+    return render_template("teacherMyClasses.html")
+
+@app.route("/teacher/class/students")
+def teacherStudents():
+    return render_template("teacherStudents.html")
 
 #Login page routing - routes to Alex's login page.
 @app.route("/login", methods=["GET", "POST"])

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student View</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='teacherStudents.css') }}">
+</head>
+<body>
+    <div class="boldFont largeFont">University</div>
+    <div class="boldFont">Welcome, {{ teacher.name }}!</div>
+    <div>
+        <div><a href="/teacher/{{ teacher.id }}/myClasses">Back</a></div>
+        <div id="classContainer">
+            <table class="bordered">
+                {% for student in students: %}
+                    <tr>
+                        <td> {{ student.name }} </td>
+                        <td> <input type="number" onchange="setGrade(Number('{{student.id}}'), Number('{{currentClass.id}}'), this)" value="{{ getStudentGrade(student, currentClass) }}"/></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div><a href="/login">Sign Out</a></div>
+    <script src="{{ url_for("static", filename="teacherStudents.js") }}"></script>
+</body>
+</html>

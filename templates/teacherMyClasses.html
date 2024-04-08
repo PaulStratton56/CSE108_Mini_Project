@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taught Classes</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='teacherMyClasses.css') }}">
+</head>
+<body>
+    <div class="boldFont largeFont">University</div>
+    <div class="boldFont">Welcome, {{ teacher.name }}!</div>
+    <div>
+        <div>Your Courses</div>
+        <div id="classContainer">
+            <table class="bordered">
+                {% for class in classes: %}
+                    <tr>
+                        <td> <a href="/teacher/{{teacher.id}}/class/{{class.id}}/students">{{ class.name }}</a> </td>
+                        <td> {{ teacher.name }} </td>
+                        <td> {{ class.time }} </td>
+                        <td> {{ getNumberOfEnrolledStudents(class) }}/{{ class.max_students }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div><a href="/login">Sign Out</a></div>
+</body>
+</html>

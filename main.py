@@ -11,6 +11,16 @@ def index():
 def login():
     return render_template("login.html")
 
+@app.route("/teacher")
+def teacherView():
+    return render_template("teacherView.html")
+@app.route("/course")
+def courseView():
+    return render_template("courseRosterTeacher.html")
+@app.route("/student")
+def studentView():
+    return render_template("studentview.html")
+
 #Initialize the database tables for the application's use.
 with app.app_context():
     db.create_all()

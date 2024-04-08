@@ -4,10 +4,12 @@ def getStudent(username):
     return Student.query.filter_by(name=username).first()
 
 def getStudentClasses(student):
-    return Class.query.join(student_class_table).filter_by(student_id = student.id).all()
+    enrollments = Enrollment.query.filter_by(student_id = student.id).all()
+    return [enrollment.enrolledClass for enrollment in enrollments]
 
 def getClassStudents(aClass):
-    return Student.query.join(student_class_table).filter_by(class_id = aClass.id).all()
+    enrollments = Enrollment.query.filter_by(class_id = aClass.id).all()
+    return [enrollment.student for enrollment in enrollments]
 
 def getTeacher(username = None):
     if username == None:
@@ -32,11 +34,13 @@ def getClass(className = None):
         return Class.query.filter_by(id=className).first()
 
 def getStudentGrade(student, givenClass):
-    grade = db.session.query(student_class_table.c.grade).filter_by(student_id=student.id, class_id=givenClass.id).scalar()
-    return grade
+    enrollment = Enrollment.query.filter_by(student_id = student.id, class_id = givenClass.id).first()
+    if enrollment:
+        return enrollment.grade
 
 def enrolled(student, studentClass):
-    if len(Class.query.join(student_class_table).filter_by(class_id = studentClass.id, student_id = student.id).all()) != 0:
+    enrollment = Enrollment.query.filter_by(student_id = student.id, class_id = studentClass.id).first()
+    if enrollment:
         return True
     return False
 

@@ -73,7 +73,7 @@ def login():
 
 @app.route("/setGrade/<student_id>/<class_id>", methods=["POST"])
 def setGrade(student_id, class_id):
-    enrollment = db.session.query(student_class_table).filter_by(student_id=student_id, class_id=class_id).first()
+    enrollment = Enrollment.query.filter_by(student_id=student_id, class_id=class_id).first()
     newGrade = int(json.loads(request.data)["grade"])
     if enrollment:
         currentGrade = enrollment.grade

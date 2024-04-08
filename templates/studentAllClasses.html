@@ -24,9 +24,9 @@
                         <td> {{ getNumberOfEnrolledStudents(class) }}/{{ class.max_students }} </td>
 
                         {% if enrolled(student, class): %}
-                            <td> <button>Drop Class</button> </td>
+                            <td> <button onclick="editEnrollment('{{student.id}}', '{{class.id}}', 'drop', '{{ class.name }}')">Drop Class</button> </td>
                         {% elif getNumberOfEnrolledStudents(class) < class.max_students %}
-                            <td> <button>Join Class</button> </td>
+                            <td> <button onclick="editEnrollment('{{student.id}}', '{{class.id}}', 'join', '{{ class.name }}')">Join Class</button> </td>
                         {% else %}
                             <td> Full Class.. </td>
                         {% endif %}
@@ -37,5 +37,6 @@
         </div>
     </div>
     <div><a href="/login">Sign Out</a></div>
+    <script src="{{ url_for("static", filename="studentAllClasses.js") }}"></script>
 </body>
 </html>

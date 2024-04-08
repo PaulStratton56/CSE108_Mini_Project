@@ -76,8 +76,29 @@ def setGrade(student_id, class_id):
     enrollment = Enrollment.query.filter_by(student_id=student_id, class_id=class_id).first()
     newGrade = int(json.loads(request.data)["grade"])
     if enrollment:
-        currentGrade = enrollment.grade
-        print("Student is enrolled! Changing grade from " + str(currentGrade) + " to " + str(newGrade))
+        enrollment.grade = newGrade
+        db.session.commit()
+    return "Success"
+
+@app.route("/dropClass", methods=["POST"])
+def dropClass():
+    requestBody = json.loads(request.data)
+    enrollmentToDrop = Enrollment.query.filter_by(student_id=requestBody["student_id"], class_id=requestBody["class_id"]).first()
+    if enrollmentToDrop:
+        print("Found enrollment!")
+        db.session.delete(enrollmentToDrop)
+        db.session.commit()
+    return "Success"
+
+@app.route("/joinClass", methods=["POST"])
+def joinClass():
+    requestBody = json.loads(request.data)
+    enrolledClass = getClass(requestBody["class_id"])
+    enrolledStudent = getStudent(requestBody["student_id"])
+    if getNumberOfEnrolledStudents(enrolledClass) < enrolledClass.max_students: #There's space!
+        enrollment = Enrollment(class_id = enrolledClass.id, student_id = enrolledStudent.id, grade = 100)
+        db.session.add(enrollment)
+        db.session.commit()
     return "Success"
 
 @app.route("/debug", methods=["GET"])

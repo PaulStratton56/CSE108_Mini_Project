@@ -88,6 +88,35 @@ def debug():
     db.session.commit()
     return render_template("login.html", message = "Debug completed.", messageColor = 'green')
 
+# @app.route("/debug", methods=["GET"])
+# def debug():
+#     enrollments = Enrollment.query.all()
+#     students = Student.query.all()
+#     teachers = Teacher.query.all()
+#     classes = Class.query.all()
+
+#     enrollments[0].student_id = students[0].id
+#     enrollments[1].student_id = students[1].id
+#     enrollments[2].student_id = students[2].id
+#     enrollments[3].student_id = students[1].id
+#     enrollments[4].student_id = students[2].id
+#     enrollments[5].student_id = students[0].id
+    
+#     enrollments[0].class_id = classes[0].id
+#     enrollments[1].class_id = classes[0].id
+#     enrollments[2].class_id = classes[1].id
+#     enrollments[3].class_id = classes[1].id
+#     enrollments[4].class_id = classes[2].id
+#     enrollments[5].class_id = classes[2].id
+
+#     classes[0].teacher_id = teachers[0].id
+#     classes[1].teacher_id = teachers[1].id
+#     classes[2].teacher_id = teachers[2].id
+
+#     db.session.commit()
+
+#     return render_template("login.html", message = "Debug complete.", messageColor = "green")
+
 #Initialize the database tables for the application's use.
 with app.app_context():
     db.create_all()

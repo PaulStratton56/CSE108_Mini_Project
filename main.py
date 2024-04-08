@@ -48,7 +48,9 @@ def login():
         username = request.form.get('username')
         password = request.form.get('password')
 
-        if getStudent(username) != None:
+        if username.upper() == "Admin".upper() and password == "Password":
+            return redirect('/admin')
+        elif getStudent(username) != None:
             student = getStudent(username)
             if student.password == password:
                 message="Welcome, student " + student.name + "!"

@@ -41,7 +41,7 @@ def studentAllClasses(student_id):
 def teacherMyClasses(teacher_id):
     teacher = getTeacher(int(teacher_id))
     classes = getTeacherClasses(teacher)
-    return render_template("teacherMyClasses.html", classes = classes, teacher = teacher, getNumberOfEnrolledStudents = getNumberOfEnrolledStudents)
+    return render_template("teacherView.html", classes = classes, teacher = teacher, getNumberOfEnrolledStudents = getNumberOfEnrolledStudents)
 
 @app.route("/teacher/<teacher_id>/class/<class_id>/students")
 @login_required
@@ -49,13 +49,13 @@ def teacherStudents(teacher_id, class_id):
     teacher = getTeacher(int(teacher_id))
     currentClass = getClass(int(class_id))
     students = getClassStudents(currentClass)
-    return render_template("teacherStudents.html", students = students, currentClass = currentClass, teacher = teacher, getStudentGrade = getStudentGrade, setGrade = setGrade)
+    return render_template("courseRosterTeacher.html", students = students, currentClass = currentClass, teacher = teacher, getStudentGrade = getStudentGrade, setGrade = setGrade)
 
 #Login page routing - routes to Alex's login page.
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        return render_template("login.html", message = None)
+        return render_template("login.html")
     if request.method == "POST":
         message = None
         messageColor = NONE_COLOR

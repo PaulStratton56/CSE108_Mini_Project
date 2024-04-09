@@ -8,44 +8,35 @@
 </head>
 <body>
     <div class="navbar">
-            <p>Welcome Dr Hepworth!</p>
+            <p>Welcome, {{ teacher.name }}!</p>
             <h1>University of California Merced Courses</h1>
-            <button>Sign Out</button>
+            <button id="signOutButton">Sign Out</button>
     </div>
     <div class="container">
-        <h2>Your Courses</h2>
+        <h2>Your Courses:</h2>
         <table>
             <tr>
-                <th>Course Name</th>
+                <th>Class</th>
                 <th>Teacher</th>
                 <th>Time</th>
-                <th>Students Enrolled</th>
+                <th>Enrollment</th>
             </tr>
-            <tr>
-                <td>CS 162</td>
-                <td>Ammon Hepworth</td>
-                <td>TR 3:00-3:50 PM</td>
-                <td>4/4</td>
-            </tr>
-            <tr>
-                <td>CS 162</td>
-                <td>Ammon Hepworth</td>
-                <td>TR 3:00-3:50 PM</td>
-                <td>4/4</td>
-            </tr>
-            <tr>
-                <td>CS 162</td>
-                <td>Ammon Hepworth</td>
-                <td>TR 3:00-3:50 PM</td>
-                <td>4/4</td>
-            </tr>
-            <tr>
-                <td>CS 162</td>
-                <td>Ammon Hepworth</td>
-                <td>TR 3:00-3:50 PM</td>
-                <td>4/4</td>
-            </tr>
+            {% for class in classes: %}
+                <tr>
+                    <td> <a href="/teacher/{{teacher.id}}/class/{{class.id}}/students">{{ class.name }}</a> </td>
+                    <td> {{ teacher.name }} </td>
+                    <td> {{ class.time }} </td>
+                    <td> {{ getNumberOfEnrolledStudents(class) }}/{{ class.max_students }}</td>
+                </tr>
+            {% endfor %}
         </table>
     </div>
 </body>
+<script>
+    var btnSignOut = document.getElementById("signOutButton");
+
+    btnSignOut.addEventListener("click", function() {
+        window.location.href = "{{ url_for('login') }}"
+    });
+</script>
 </html>

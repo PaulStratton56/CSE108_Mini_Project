@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Student View Courses</title>
+    <link rel="stylesheet" href="studentview.css">
+</head>
+<body>
+<div class="app">
+    <header class="university-header">
+        <div>University Of California Merced Courses</div>
+        <button class="sign-out">Sign out</button>
+    </header>
+    <main class="content">
+        <section class="courses">
+            <button id="courseButton" class="active">Your Courses</button>
+        </section>
+        <section class="add-courses">
+            <button id="addCourseButton">Add Courses</button>
+        </section>
+    </main>
+    <table id="courseTable">
+        <thead>
+        <tr>
+            <th>Course Name</th>
+            <th>Teacher</th>
+            <th>Time</th>
+            <th>Students Enrolled</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+<div class="add-course" style="display: none;">
+    <input type="text" placeholder="Course Name">
+    <input type="text" placeholder="Teacher">
+    <input type="text" placeholder="Time">
+    <button>Add Course</button>
+</div>
+
+<script>
+    var btnCourse = document.getElementById('courseButton');
+    var btnAddCourse = document.getElementById('addCourseButton');
+    var sectionAddCourses = document.querySelector('.add-course');
+    var tableCourses = document.getElementById('courseTable');
+
+    btnCourse.addEventListener('click', function() {
+        this.classList.add('active');
+        btnAddCourse.classList.remove('active');
+        sectionAddCourses.style.display = 'none';
+        tableCourses.style.display = 'table';
+    });
+
+    btnAddCourse.addEventListener('click', function() {
+        this.classList.add('active');
+        btnCourse.classList.remove('active');
+        sectionAddCourses.style.display = 'block';
+        tableCourses.style.display = 'none';
+    });
+
+</script>
+
+</body>
+</html>

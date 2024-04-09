@@ -1,0 +1,30 @@
+*{
+    font-family:consolas;
+}
+
+body > *{
+    padding:0.2rem;
+    margin:0.2rem;
+}
+
+.boldFont{
+    font-weight: bold;
+}
+
+.largeFont{
+    font-size: xx-large;
+}
+
+.sideBySideContainer{
+    display:flex;
+    justify-content:flex-start;
+}
+
+.sideBySideContainer > *{
+    margin-right:1rem;
+    
+}
+
+.bordered{
+    border: 2px solid black;
+}

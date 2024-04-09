@@ -1,0 +1,129 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.app {
+    max-width: 100%;
+    margin: auto;
+}
+
+.university-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #003366;
+    color: #ffffff;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.courses, .add-courses {
+    padding: 20px;
+    background-color: #E6E6FA;
+    width: 48%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #000000;
+    font-size: 20px;
+}
+
+th {
+    padding: 10px;
+    background-color: #003366;
+    color: #ffffff;
+}
+
+td {
+    padding: 10px;
+    text-align: left;
+    background-color: #B0C4DE;
+}
+
+.sign-out {
+    cursor: pointer;
+}
+
+button {
+    display: inline-flex;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    color: #003366;
+    border-radius: 5px;
+}
+
+#courseButton, #addCourseButton {
+    height: 50px;
+    font-size: 20px;
+    width: 100%;
+}
+
+button:hover {
+    color: #ffffff;
+    background-color: #003366;
+}
+
+.sign-out:hover {
+    color: #ffffff;
+    background-color: grey;
+}
+
+button.active {
+    color: #ffffff;
+    background-color: #00205b;
+}
+
+.courses.full-width {
+    display: block;
+    width: 100%;
+}
+
+.add-course {
+    flex-direction: column;
+    display: flex;
+    margin-top: 20px;
+    width: 100%;
+    padding-left: 15px;
+}
+
+.add-course input[type="text"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    width: 20%;
+}
+
+.add-course button {
+    cursor: pointer;
+    padding: 10px;
+    border: none;
+    color: #ffffff;
+    background-color: #00205b;
+    border-radius: 5px;
+}
+
+.add-course button:hover {
+    color: #ffffff;
+    background-color: #003366;
+}
+
+input[type="text"]:focus {
+    border: 1px solid #003366;
+    box-shadow: #003366;
+    outline: none;
+}

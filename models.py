@@ -14,13 +14,15 @@ db = SQLAlchemy(app)
 admin = Admin(app, name="classviewer", template_mode="bootstrap3")
 app.secret_key = 'key'
 
-#Association table between Classes and Students (a many-to-many relationship).
-#Note each association includes a student, a class, and a grade the student has in the class.
-student_class_table = db.Table("student_class_table",
-                                db.Column("class_id", db.Integer, db.ForeignKey("Class.id"), primary_key=True),
-                                db.Column("student_id", db.Integer, db.ForeignKey("Student.id"), primary_key=True),
-                                db.Column("grade", db.Integer, nullable=False)
-)
+class Enrollment(db.Model):
+    __tablename__ = "Enrollment"
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer, db.ForeignKey("Student.id"))
+    class_id = db.Column(db.Integer, db.ForeignKey("Class.id"))
+    grade = db.Column(db.Integer, nullable=False)
+    student = db.relationship("Student", backref=db.backref("enrollments", lazy=True))
+    enrolledClass = db.relationship("Class", backref=db.backref("enrollments", lazy=True))
+admin.add_view(ModelView(Enrollment, db.session))
 
 '''
 Class Database table. Contains:
@@ -39,7 +41,6 @@ class Class(db.Model):
     max_students = db.Column(db.Integer, nullable=False)
     teacher_id   = db.Column(db.Integer, db.ForeignKey("Teacher.id"))
     teacher      = db.relationship("Teacher", backref=db.backref("classes", lazy=True))
-    students     = db.relationship("Student", secondary=student_class_table, lazy="subquery")
 admin.add_view(ModelView(Class, db.session))
 
 '''
@@ -54,7 +55,6 @@ class Student(UserMixin, db.Model):
     id         = db.Column(db.Integer, primary_key=True)
     name       = db.Column(db.String, nullable=False)
     password   = db.Column(db.String, nullable=False) #This needs to be made more secure via Flask Login
-    classes    = db.relationship("Class", secondary=student_class_table, overlaps="students", lazy="subquery")
 
     def set_password(self, password):
         self.password = generate_password_hash(password)

@@ -72,12 +72,12 @@ def login():
             login_user(user)
         
             if isinstance(user, Student):
-                message="Welcome, student " + student.name + "!"
+                message="Welcome, student " + user.name + "!"
                 messageColor = CONFIRM_COLOR
                 return redirect(url_for('studentMyClasses', student_id=user.id))
             
             elif isinstance(user, Teacher):
-                message="Welcome, teacher " + teacher.name + "!"
+                message="Welcome, teacher " + user.name + "!"
                 messageColor = CONFIRM_COLOR
                 return redirect(url_for('teacherMyClasses', teacher_id=user.id))
             
@@ -98,6 +98,7 @@ def logout():
     return redirect(url_for("login"))
 
 @app.route("/setGrade/<student_id>/<class_id>", methods=["POST"])
+@login_required
 def setGrade(student_id, class_id):
     enrollment = Enrollment.query.filter_by(student_id=student_id, class_id=class_id).first()
     newGrade = int(json.loads(request.data)["grade"])
@@ -107,6 +108,7 @@ def setGrade(student_id, class_id):
     return "Success"
 
 @app.route("/dropClass", methods=["POST"])
+@login_required
 def dropClass():
     requestBody = json.loads(request.data)
     enrollmentToDrop = Enrollment.query.filter_by(student_id=requestBody["student_id"], class_id=requestBody["class_id"]).first()
@@ -117,6 +119,7 @@ def dropClass():
     return "Success"
 
 @app.route("/joinClass", methods=["POST"])
+@login_required
 def joinClass():
     requestBody = json.loads(request.data)
     enrolledClass = getClass(requestBody["class_id"])
@@ -126,14 +129,6 @@ def joinClass():
         db.session.add(enrollment)
         db.session.commit()
     return "Success"
-
-@app.route("/debug", methods=["GET"])
-def debug():
-    class3 = Class.query.filter_by(name = "BIO").first()
-    class3.max_students = 2
-    class3.teacher_id = getTeacher().id
-    db.session.commit()
-    return render_template("login.html", message = "Debug completed.", messageColor = 'green')
 
 # @app.route("/debug", methods=["GET"])
 # def debug():
@@ -163,22 +158,6 @@ def debug():
 #     db.session.commit()
 
 #     return render_template("login.html", message = "Debug complete.", messageColor = "green")
-
-@app.route("/teacher")
-def teacherView():
-    return render_template("teacherView.html")
-@app.route("/course")
-def courseView():
-    return render_template("courseRosterTeacher.html")
-@app.route("/student")
-def studentView():
-    return render_template("studentview.html")
-
-@app.route("/logout")
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
 
 #Initialize the database tables for the application's use.
 with app.app_context():

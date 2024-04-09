@@ -2,6 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
 #Initialize the Flask application and the SQLAlchemy database.
 app = Flask(__name__)
@@ -47,12 +49,19 @@ name: the name of the student (ex. Chuck Norris)
 password: the password of the student. Should be used with Flask's 'Login' system.
 classes: points to all classes in the student_class_table that the student is enrolled in. This is an association.
 '''
-class Student(db.Model):
+class Student(UserMixin, db.Model):
     __tablename__ = "Student"
     id         = db.Column(db.Integer, primary_key=True)
     name       = db.Column(db.String, nullable=False)
     password   = db.Column(db.String, nullable=False) #This needs to be made more secure via Flask Login
     classes    = db.relationship("Class", secondary=student_class_table, overlaps="students", lazy="subquery")
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
 admin.add_view(ModelView(Student, db.session))
 
 '''
@@ -61,11 +70,18 @@ teacher_id: database teacher id. This is the primary key.
 name: the name of the teacher (ex. Ammon Hepworth)
 password: the password of the teacher. Should be used with Flask's 'Login' system.
 '''
-class Teacher(db.Model):
+class Teacher(UserMixin, db.Model):
     __tablename__ = "Teacher"
     id         = db.Column(db.Integer, primary_key=True)
     name       = db.Column(db.String, nullable=False)
     password   = db.Column(db.String, nullable=False) #This needs to be made more secure via Flask Login
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
 admin.add_view(ModelView(Teacher, db.session))
 
 #Ensures the correct file is run.

@@ -1,33 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Classes</title>
-    <link rel="stylesheet" href=" {{ url_for('static', filename='studentMyClasses.css') }}">
+    <title>Student View Courses</title>
+    <link rel="stylesheet" href=" {{ url_for('static', filename='studentview.css') }}">
 </head>
 <body>
-    <div class="boldFont largeFont">University</div>
-    <div class="boldFont">Welcome, {{ student.name }}!</div>
-    <div>
-        <div class="sideBySideContainer">
-            <div style="font-weight: bold">Your Courses</div>
-            <div><a href="/student/{{ student.id }}/allClasses">Add Courses</a></div>
-        </div>
-        <div id="classContainer">
-            <table class="bordered">
-                {% for class in classes: %}
-                    <tr>
-                        <td> {{ class.name }} </td>
-                        <td> {{ getTeacherName(class.teacher_id) }} </td>
-                        <td> {{ class.time }} </td>
-                        <td> {{ getNumberOfEnrolledStudents(class) }}/{{ class.max_students }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-        </div>
-    </div>
+<div class="app">
+    <header class="university-header">
+        <div>University Of California Merced Courses</div>
+        <button id="signOutButton" class="sign-out">Sign out</button>
+    </header>
+    <main class="content">
+        <section class="courses">
+            <button id="courseButton" class="active">Your Courses</button>
+        </section>
+        <section class="add-courses">
+            <button id="addCourseButton">Add Courses</button>
+        </section>
+    </main>
+    <table id="courseTable">
+        <thead>
+        <tr>
+            <th>Course Name</th>
+            <th>Teacher</th>
+            <th>Time</th>
+            <th>Students Enrolled</th>
+        </tr>
+        </thead>
+        {% for class in classes: %}
+            <tr>
+                <td> {{ class.name }} </td>
+                <td> {{ getTeacherName(class.teacher_id) }} </td>
+                <td> {{ class.time }} </td>
+                <td> {{ getNumberOfEnrolledStudents(class) }}/{{ class.max_students }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 
-    <div><a href="/login">Sign Out</a></div>
+    <script>
+        var btnAddCourse = document.getElementById('addCourseButton');
+        var btnSignOut = document.getElementById('signOutButton');
+
+        btnAddCourse.addEventListener('click', function() {
+            window.location.href = "{{ url_for('studentAllClasses', student_id = student.id) }}"
+        });
+
+        btnSignOut.addEventListener('click', function() {
+            window.location.href = "{{ url_for('login') }}"
+        });
+
+    </script>
 </body>
 </html>

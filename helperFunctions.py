@@ -55,3 +55,7 @@ def getStudent(username = None):
 def getNumberOfEnrolledStudents(givenClass):
     students = getClassStudents(givenClass)
     return len(students)
+
+#Ensures the correct file is run.
+if __name__ == "__main__":
+    print("Wrong file! Please run 'main.py'.")
